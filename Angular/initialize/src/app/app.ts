@@ -5,11 +5,8 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.css',
-  // you can use inline templating and styling as well, prefer to use the URL options above
-  // template:'',
-  // styles:''
+  styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('examples');
+  protected readonly title = signal('initialize');
 }
