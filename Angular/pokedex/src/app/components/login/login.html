@@ -1,0 +1,16 @@
+
+<form (ngSubmit)="attemptLogin()" class="login-form">
+  <label>
+    <p>Username</p>
+    <input type="text" [(ngModel)]="usernameInput" name="username" required />
+  </label>
+  <label>
+    <p>Password</p>
+    <input type="password" [(ngModel)]="passwordInput" name="password" required />
+  </label>
+  <button type="submit" class="login-button">Login</button>
+  @if (errorMessage) {
+    <p class="error-message">{{errorMessage}}</p>
+  }
+</form>
+

@@ -1,0 +1,6 @@
+<h3 class="moves-header">Moves</h3>
+<ul class="moves-list">
+    @for (moveObject of pokemonMoves(); track $index) {
+        <li>{{moveObject.move.name | moveTransform}}</li>
+    }
+</ul>

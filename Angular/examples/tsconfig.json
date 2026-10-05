@@ -1,0 +1,62 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  // Whether TypeScript should recompile tsconfig-referenced projects on save.
+  // False matters for editor tooling; Angular's own build (ng build/test) drives compilation
+  // itself, so relying on auto-save compilation is unnecessary and can cause double builds.
+  "compileOnSave": false,
+  "compilerOptions": {
+    // strict: true turns on the whole family of strict type-checking flags at once
+    // (strictNullChecks, noImplicitAny, strictFunctionTypes, etc.). Strongly recommended.
+    "strict": true,
+    // Errors if a subclass overrides a method/property without the `override` keyword.
+    // The keyword makes intent explicit and alerts you when an upstream signature changes.
+    "noImplicitOverride": true,
+    // Requires using bracket access (obj["key"]) instead of dot access when the
+    // property comes from an index signature. Catches typos that would otherwise silently
+    // access undefined. (You'll see this as: element.classList is fine, a dynamic key needs brackets.)
+    "noPropertyAccessFromIndexSignature": true,
+    // Errors if a function has code paths that may not return a value.
+    "noImplicitReturns": true,
+    // Errors if a switch case falls through to the next case without a break/return.
+    "noFallthroughCasesInSwitch": true,
+    // Skip type-checking of declaration (.d.ts) files. Speeds up compiles; relies on libraries
+    // being correct, which they normally are.
+    "skipLibCheck": true,
+    // Required when compiling with esbuild (as Angular does). Each file is treated as its own
+    // module; type-only re-exports must use explicit `export type`.
+    "isolatedModules": true,
+    // Enables Angular's decorator syntax (@Component, @Injectable, etc.). Required for the framework.
+    "experimentalDecorators": true,
+    // Use tslib's helpers instead of inlining helpers into each file. Reduces bundle size.
+    "importHelpers": true,
+    // The ECMAScript version to emit. ES2022 is a modern baseline supported by current browsers.
+    "target": "ES2022",
+    // How modules are emitted. "preserve" keeps import/export statements intact so the bundler
+    // (esbuild via the Angular builder) can process them later; required by Angular.
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    // Disables the legacy i18n message-ID format. Keeps message IDs stable and non-deprecated.
+    "enableI18nLegacyMessageIdFormat": false,
+    // Type-checks constructor dependency injection against what the DI system can provide.
+    "strictInjectionParameters": true,
+    // Enforces that @Input()/@Output() fields are public, not private or protected.
+    "strictInputAccessModifiers": true,
+    // Fully type-checks templates against their component classes. This is the big one — it turns
+    // template typos and wrong bindings into compile errors. Strongly recommended.
+    "strictTemplates": true
+  },
+  // This is a "solution" tsconfig: files is empty and no compilation happens here.
+  // The real configs are the referenced projects below.
+  "files": [],
+  "references": [
+    // Referenced projects, each with its own tsconfig and its own set of source files.
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

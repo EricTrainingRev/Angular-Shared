@@ -1,0 +1,3 @@
+@for (link of getSpriteSources(); track $index) {
+    <img [src]="link" [alt]="`sprite-${$index}`" class="sprite-img">
+}

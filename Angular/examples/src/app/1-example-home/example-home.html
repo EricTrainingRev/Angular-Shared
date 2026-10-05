@@ -1,0 +1,13 @@
+<div class="shell">
+  <nav>
+    <!-- RouterLink makes these client-side navigations (no full page reload).
+         RouterLinkActive adds the "active" class to the link matching the current route. -->
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a routerLink="/templates" routerLinkActive="active">Templates</a>
+    <!-- Add links to the example components here as they are added to the routes. -->
+  </nav>
+
+  <!-- Routed components render here. App (the angular-generated welcome page) and any
+       example feature components are swapped in by the router based on the URL. -->
+  <router-outlet />
+</div>

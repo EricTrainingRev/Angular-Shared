@@ -1,0 +1,22 @@
+<!--
+  Card is a content-projection container. Whatever the parent places between
+  <app-card> tags is projected into the <ng-content> slots below.
+-->
+<div class="card">
+  <div class="card-header">
+    <!--
+      <ng-content select="[card-header]"> is a named slot: it captures only the
+      projected content that carries the [card-header] attribute, and renders it
+      here in the header.
+    -->
+    <ng-content select="[card-header]"></ng-content>
+  </div>
+  <div class="card-body">
+    <!--
+      A plain <ng-content> (no select) is the default slot: it captures all
+      remaining projected content that didn't match a named slot, and renders it
+      here in the body.
+    -->
+    <ng-content></ng-content>
+  </div>
+</div>

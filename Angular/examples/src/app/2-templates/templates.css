@@ -1,0 +1,13 @@
+/* Most Template component styling lives in the global styles.css (src/styles.css)
+   since the various styles used are meant to be shared across example components. */
+
+/* Reserves space for the @if/@else block so toggling it doesn't shift the layout. */
+.conditional {
+  min-height: 1.5rem;
+}
+
+/* remove the margin of the p element to keep the example from shifting every time
+   we toggle the visibility of the element */
+.conditional p {
+  margin: 0;
+}

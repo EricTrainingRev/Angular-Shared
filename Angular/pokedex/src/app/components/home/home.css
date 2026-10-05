@@ -1,0 +1,16 @@
+.pokedex-screen {
+  background-color: rgba(152, 251, 152, 0.6); /* Pale green with opacity */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 4px solid #8b0000; /* Deep red border like Pokédex casing */
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}

@@ -1,0 +1,12 @@
+.sprite-img {
+  width: 96px; /* your preferred default size */
+  height: auto;
+  transition: transform 0.2s ease-in-out;
+  transform-origin: center center; /* zooms from the center */
+  image-rendering: pixelated;
+}
+
+.sprite-img:hover {
+  transform: scale(1.5); /* zooms in on hover */
+  z-index: 10;
+}

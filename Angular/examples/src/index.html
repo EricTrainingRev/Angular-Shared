@@ -1,0 +1,29 @@
+<!doctype html>
+<!--
+  index.html is the single HTML shell for the whole Angular app.
+  Angular never re-renders this file — it stays as-is and the app is
+  bootstrapped into the <app-root> element below (see src/main.ts).
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Examples</title>
+  <!--
+    <base href="/"> tells the browser the base URL for all relative URLs in the
+    document. Angular's router relies on it to resolve navigation paths, so it
+    must match where the app is deployed (e.g. "/" for the site root).
+  -->
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <!--
+    <app-example-home> is the mount point for the bootstrapped root component
+    (ExampleHome, selector 'app-example-home'). Angular replaces this element's
+    contents with the rendered component when the app boots. There is no other
+    HTML here — everything else is rendered by Angular components.
+  -->
+  <app-example-home></app-example-home>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<div class="pokedex-screen">
+    <app-instructions></app-instructions>
+    <app-search></app-search>
+
+    @if(pokemonPresent()){
+        <app-pokename [typesArray]="typesArray"></app-pokename>
+        <app-poke-sprites></app-poke-sprites>
+        <app-poke-type (colorReceived)="onColorReceived($event)"></app-poke-type>
+        <app-poke-moves></app-poke-moves>
+    }    
+</div>
+

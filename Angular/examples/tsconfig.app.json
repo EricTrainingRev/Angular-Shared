@@ -1,0 +1,26 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  // Inherits every option from the base tsconfig.json (strict, decorators, module, etc.).
+  // Only what is specific to the APPLICATION source is overridden or added here.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Where the emitted JS/declaration files go. For Angular this is an intermediate
+    // scratch location - the output you actually deploy comes from the Angular builder (dist/).
+    "outDir": "./out-tsc/app",
+    // The common source directory. TS6 requires an explicit rootDir when outDir is set,
+    // so emitted files are laid out relative to ./src.
+    "rootDir": "./src",
+    // No ambient global typings are loaded automatically. Angular adds types per-use instead
+    // of pulling in every @types/* package, keeping the global scope clean and compiles fast.
+    "types": []
+  },
+  "include": [
+    // Which files belong to this project: everything under src/ with a .ts extension.
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    // Spec (test) files are excluded here - they belong to tsconfig.spec.json, not the app build.
+    "src/**/*.spec.ts"
+  ]
+}

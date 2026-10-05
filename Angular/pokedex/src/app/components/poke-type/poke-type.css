@@ -1,0 +1,36 @@
+.types-header {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffcb05;
+  text-shadow: 2px 2px #2a75bb;
+  margin: 1rem;
+  text-align: center;
+}
+
+.types-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap; /* allows wrapping if there are more than 2 types */
+  margin-bottom: 1rem;
+}
+
+.type-item {
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 100px;
+  background-color: rgba(128, 128, 128, 0.3); /* soft gray */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  letter-spacing: 2px; /* adds spacing between letters */
+
+  /* Black text outline using multiple shadows */
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
+}

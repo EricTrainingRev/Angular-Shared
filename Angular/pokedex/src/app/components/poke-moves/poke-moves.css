@@ -1,0 +1,46 @@
+.moves-header {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffcb05;
+  text-shadow:
+    -2px -2px 0 #2a75bb,
+    2px -2px 0 #2a75bb,
+    -2px 2px 0 #2a75bb,
+    2px 2px 0 #2a75bb;
+  font-family: 'Arial Black', sans-serif;
+  margin: 1rem;
+  letter-spacing: 1px;
+}
+
+.moves-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 1rem auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+.moves-list li {
+  background-color: rgba(128, 128, 128, 0.3); /* soft gray */
+  color: #2a75bb; /* Pokémon blue */
+  font-weight: 600;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 3rem;
+  text-shadow:
+    -1px -1px 0 #ffcb05,
+     1px -1px 0 #ffcb05,
+    -1px  1px 0 #ffcb05,
+     1px  1px 0 #ffcb05;
+}
+

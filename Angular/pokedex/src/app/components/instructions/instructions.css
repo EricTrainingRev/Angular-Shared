@@ -1,0 +1,12 @@
+
+.pokedex-instructions {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffcb05; /* Pokémon yellow */
+  text-shadow: 1px 1px 2px #2a75bb; /* Pokémon blue outline */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 1rem auto;
+  max-width: 600px;
+  line-height: 1.6;
+}

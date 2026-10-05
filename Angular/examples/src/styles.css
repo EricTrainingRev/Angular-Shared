@@ -1,0 +1,104 @@
+/* Global styles shared by all example components.
+   Component-specific styles live in each component's own stylesheet. */
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  max-width: 640px;
+  margin: 24px auto;
+  padding: 0 16px;
+  color: #212121;
+  line-height: 1.5;
+}
+
+/* Info callout box. */
+.note {
+  background: #e8f0fe;
+  border-left: 4px solid #1a73e8;
+  padding: 10px 14px;
+  border-radius: 4px;
+}
+
+code {
+  background: #eceff1;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+button {
+  font: inherit;
+  padding: 6px 12px;
+  margin: 4px 4px 4px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #f1f3f4;
+}
+
+input {
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Monospace status bar. */
+.status {
+  background: #f1f3f4;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 12px 0;
+  font-family: monospace;
+}
+
+/* Reusable card (content projection). */
+.card {
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 12px 0;
+}
+
+.card-header {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-body {
+  color: #333;
+}
+
+.templates {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 3px solid #eee;
+  border-radius: 8px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.count {
+  font-size: 1.5rem;
+  font-weight: bold;
+  min-width: 2rem;
+  text-align: center;
+}

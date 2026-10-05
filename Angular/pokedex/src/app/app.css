@@ -1,0 +1,12 @@
+
+.app-wrapper{
+    background-color: #ce2029  ;
+    min-height: 100vh;
+    padding: 1rem;    
+}
+
+.pokedex-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

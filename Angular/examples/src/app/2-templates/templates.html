@@ -1,0 +1,196 @@
+<div class="templates">
+  <h1>Templates</h1>
+
+  <!-- ============================================================ -->
+  <!-- 1. Template statements: event binding, interpolation, property binding -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Template statements</h2>
+
+    <p>
+      Event binding <code>(click)</code> calls a method; interpolation
+      <code>{{ '{{ counterValue() }}' }}</code> renders a value; property binding
+      <code>[disabled]</code> sets a DOM property.
+    </p>
+
+    <div class="row">
+      <!-- (click) is EVENT BINDING: it calls a component method when the button is clicked. -->
+      <button (click)="decrement()">-</button>
+      <!-- {{ counterValue() }} is INTERPOLATION: it renders the signal's value as text. -->
+      <span class="count">{{ counterValue() }}</span>
+      <button (click)="increment()">+</button>
+    </div>
+
+    <p>
+      <!-- (keyup) fires on every key release; $event is the event object passed to the method. -->
+      <input (keyup)="onKeyUp($event)" placeholder="Type something..." />
+      You typed: <strong>{{ typedText() }}</strong>
+    </p>
+    <!-- [disabled] is PROPERTY BINDING: it sets the button's disabled property to the value. -->
+    <button [disabled]="isDisabled">this button is disabled</button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 2. Template reference variables -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Template reference variables</h2>
+
+    <p>
+      <code>#name</code> grabs a reference to an element so you can read it
+      directly in the template without a class property.
+    </p>
+
+    <!-- #phone is a TEMPLATE REFERENCE VARIABLE: it holds a reference to this input element. -->
+    <input #phone placeholder="Enter a phone number" />
+    <!-- phone.value reads the input's value directly from the reference variable. -->
+    <button (click)="phoneValue.set(phone.value)">Use value</button>
+    <p>Value used: <strong>{{ phoneValue() }}</strong></p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 3. @ control flow -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>{{ '@ control flow' }}</h2>
+
+    <h3>{{ '@if' }} / {{ '@else' }}</h3>
+    <button (click)="toggleConditionalContent()">Toggle details</button>
+    <!-- @if renders its block when the condition is true; @else renders when it is false. -->
+    <div class="conditional">
+      @if (showConditionalContent()) {
+        <p>Details are visible.</p>
+      } @else {
+        <p hidden>Details are hidden.</p>
+      }
+    </div>
+
+    <h3>{{ '@for' }}</h3>
+    <ul>
+      <!-- @for loops over the list; track gives Angular a stable identity for each item. -->
+      @for (topic of exampleTopics(); track topic) {
+        <li>{{ topic }}</li>
+      } @empty {
+        <!-- @empty renders only when the list has no items. -->
+        <li>No items.</li>
+      }
+    </ul>
+
+    <h3>{{ '@switch' }}</h3>
+    <button (click)="setRequestStatus('loading')">loading</button>
+    <button (click)="setRequestStatus('ready')">ready</button>
+    <button (click)="setRequestStatus('error')">error</button>
+    <!-- @switch picks one @case based on the value; @default runs when nothing matches. -->
+    @switch (requestStatus()) {
+      @case ('loading') {
+        <p>Loading...</p>
+      }
+      @case ('ready') {
+        <p>Ready!</p>
+      }
+      @case ('error') {
+        <p>Something went wrong.</p>
+      }
+      @default {
+        <p>Unknown status.</p>
+      }
+    }
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 4. ng-container: group without an extra DOM node -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>ng-container</h2>
+
+    <p>
+      <code>ng-container</code> groups elements under a structural directive
+      without adding a wrapper element to the DOM.
+    </p>
+
+    <p class="note">
+      This example uses the <strong>older</strong> <code>*ngIf</code> structural-directive
+      syntax (rather than the modern <code>{{'@if'}}</code> block) because that is where
+      <code>ng-container</code> is needed: a structural directive must attach to a single host
+      element, and <code>ng-container</code> provides that host without adding a DOM node.
+      Included so you can see the syntax, but you should use the <code>{{'@'}}</code> syntax
+      in your own work.
+    </p>
+
+    <button (click)="toggleGroupedContent()">Toggle grouped lines</button>
+    <!-- *ngIf is the older structural-directive syntax. ng-container gives it a host
+         element so it can conditionally render multiple children without a wrapper <div>. -->
+    <ng-container *ngIf="showGroupedContent()">
+      <p>First grouped line.</p>
+      <p>Second grouped line.</p>
+    </ng-container>
+
+    <p>
+      <strong>When to use:</strong> reach for <code>ng-container</code> when you need to group
+      multiple elements under a structural directive (<code>*ngIf</code>, <code>*ngFor</code>)
+      but don't want an extra wrapper element in the DOM — for example, to avoid breaking a
+      CSS grid or flex layout that expects direct children. With the modern <code>{{'@'}}</code>
+      control-flow blocks, grouping is handled for you, so <code>ng-container</code> is mainly
+      for the older directive syntax.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 5. ng-template: reusable template via NgTemplateOutlet -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>ng-template</h2>
+
+    <p>
+      <code>ng-template</code> defines a template that isn't rendered until you
+      ask for it. <code>NgTemplateOutlet</code> renders it in place.
+    </p>
+
+    <!-- #greetingTpl defines a template that is NOT rendered on its own. -->
+    <ng-template #greetingTpl>
+      <p>{{ greeting() }}</p>
+    </ng-template>
+
+    <!-- NgTemplateOutlet renders the referenced template (#greetingTpl) at this spot. -->
+    <ng-container *ngTemplateOutlet="greetingTpl"></ng-container>
+
+    <p>
+      <strong>When to use:</strong> <code>ng-template</code> is for defining a chunk of markup
+      you want to render <em>conditionally</em> or <em>repeatedly</em> in different places —
+      for example, a reusable row or a loading state you can stamp out with
+      <code>NgTemplateOutlet</code>. It's also what the modern <code>{{'@'}}</code> control-flow
+      blocks compile down to internally, so for simple conditional/loop cases you don't write it
+      by hand — but you still use it directly with <code>NgTemplateOutlet</code> for reusable
+      templates.
+    </p>
+
+    <p class="note">
+      <strong>Normal delivery:</strong> in practice, <code>ng-template</code> is usually
+      delivered through <code>NgTemplateOutlet</code> on an <code>ng-container</code> (as shown
+      above), or implicitly by the <code>{{'@'}}</code> control-flow blocks. You rarely render an
+      <code>ng-template</code> directly — it's a definition waiting to be placed somewhere.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 6. Content projection -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Content projection</h2>
+
+    <p>
+      The <code>Card</code> component projects whatever content you place
+      between its tags. Content marked with <code>[card-header]</code> goes to
+      the header slot; everything else goes to the body.
+    </p>
+
+    <!-- Content between <app-card> tags is projected into the Card's <ng-content> slots. -->
+    <app-card>
+      <!-- [card-header] routes this element into the Card's header slot. -->
+      <h3 card-header>User Profile</h3>
+      <!-- Everything else falls into the Card's default body slot. -->
+      <p>Name: Jane Doe</p>
+      <p>Role: Administrator</p>
+    </app-card>
+  </section>
+</div>

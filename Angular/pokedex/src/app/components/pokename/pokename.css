@@ -1,0 +1,10 @@
+.pokemon-name {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 1.5rem auto;
+  letter-spacing: 1px;
+}

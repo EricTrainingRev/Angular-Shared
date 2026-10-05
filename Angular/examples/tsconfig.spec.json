@@ -1,0 +1,25 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  // Inherits every option from the base tsconfig.json, same as the app config does.
+  // This config is for the TEST files (.spec.ts), plus anything they need.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Scratch output location for the compiled test files (not the app output).
+    "outDir": "./out-tsc/spec",
+    // The common source directory. TS6 requires an explicit rootDir when outDir is set,
+    // so emitted files are laid out relative to ./src.
+    "rootDir": "./src",
+    "types": [
+      // Loads Vitest's global types (describe, it, expect, beforeEach, ...) so specs can use
+      // these globals without importing them in every test file.
+      "vitest/globals"
+    ]
+  },
+  "include": [
+    // Ambient declaration files under src/.
+    "src/**/*.d.ts",
+    // The actual test files, told apart from app source by the .spec.ts suffix.
+    "src/**/*.spec.ts"
+  ]
+}
