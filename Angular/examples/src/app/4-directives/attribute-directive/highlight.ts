@@ -45,6 +45,9 @@ export class Highlight {
 
   // Apply (or clear) the background color on the host element.
   private setHighlight(color: string | null): void {
+    // when editing an element directly like this make sure to navigate to the
+    // "nativeElement" property: this is how you get access to the standard HTML element
+    // properties like style, class, id, etc.
     this.element.nativeElement.style.backgroundColor = color;
   }
 }
