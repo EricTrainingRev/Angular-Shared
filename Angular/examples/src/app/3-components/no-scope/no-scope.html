@@ -1,0 +1,48 @@
+<div class="no-scope">
+  <!-- ============================================================ -->
+  <!-- Component styles: ViewEncapsulation.None (styles go global) -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>View encapsulation: None</h2>
+
+    <p>
+      <code>ViewEncapsulation.None</code> disables scoping. Angular takes this component's styles
+      and injects them straight into the document <code>&lt;head&gt;</code> as global CSS, so they
+      apply to <em>matching elements anywhere in the app</em> — not just this component's own.
+    </p>
+
+    <p>
+      The panel below uses a class — <code>.no-scope-box</code> — that becomes <em>global</em>
+      because encapsulation is None. Here its style is global: on the assembled page, another
+      <code>.no-scope-box</code> element placed <em>outside</em> this component picks up this same
+      coral styling, while the emulated demo box (a separate, scoped <code>.demo-box</code>) keeps
+      its teal look.
+    </p>
+
+    <!-- The styling for .no-scope-box lives in no-scope.css and, because None, becomes global. -->
+    <div class="no-scope-box">
+      <p>This panel is styled from <code>no-scope.css</code> — and because encapsulation is None, the rule goes global.</p>
+    </div>
+
+    <p class="note">
+      A component reaches outside itself deliberately here. None is the right tool for
+      <em>global utility styles</em> (a class you want to reuse anywhere) or for overriding a
+      third-party component's styles.
+    </p>
+
+    <!-- A "utility" style that is available app-wide precisely because None makes it global. -->
+    <div class="no-scope-highlight-box">
+      <p>
+        <strong>Global utility:</strong> the <code>.no-scope-highlight-box</code> style also lives in
+        <code>no-scope.css</code>. Because None makes it global, the page can drop this class on
+        any element outside this component and get the highlight — proof the styles are app-wide.
+      </p>
+    </div>
+
+    <p>
+      <strong>When to use:</strong> <code>None</code> when you need global utility styles or to
+      override a third-party component — and otherwise stick with the emulated default so your
+      styles stay contained.
+    </p>
+  </section>
+</div>

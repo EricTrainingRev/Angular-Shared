@@ -1,0 +1,10 @@
+/* Page-unique layout for the dynamic-widget child. The shared look (button,
+typography) comes from global styles.css; only this layout is local. */
+.dynamic-widget {
+  margin-block: 1rem 2rem;
+}
+
+/* Give the swap buttons breathing room so the active widget label reads clearly. */
+.dynamic-widget button {
+  margin-right: 0.5rem;
+}

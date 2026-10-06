@@ -1,0 +1,32 @@
+<div class="dynamic-widget">
+  <!-- ============================================================ -->
+  <!-- Dynamic components: render a component class via ngComponentOutlet -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Dynamic components</h2>
+
+    <p>
+      A <strong>dynamic component</strong> is one that is not hard-coded into a template but is
+      chosen at runtime. The declarative way to do this is <code>[ngComponentOutlet]</code>: you
+      hand it a <em>component class</em> and it instantiates and renders that component in place.
+    </p>
+
+    <p>
+      Below, the page holds a signal that picks which widget class should be shown. The buttons
+      swap it, and <code>ngComponentOutlet</code> renders whichever class is active — the template
+      never references either widget by name.
+    </p>
+
+    <button (click)="selectAnnouncement()">Show announcement</button>
+    <button (click)="selectStatus()">Show server status</button>
+
+    <p>
+      <!-- selectedWidget() resolves to { component, label }; component is handed to ngComponentOutlet. -->
+      Currently rendering: <strong>{{ selectedWidget().label }}</strong>
+    </p>
+
+    <!-- [ngComponentOutlet] takes a component class and renders it at this spot.
+         It destroys the previous instance and creates the new one on every swap. -->
+    <ng-container [ngComponentOutlet]="selectedWidget().component" />
+  </section>
+</div>

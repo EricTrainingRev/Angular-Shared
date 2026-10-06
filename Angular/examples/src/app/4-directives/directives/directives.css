@@ -1,0 +1,36 @@
+/* Most Directives component styling lives in the global styles.css
+   (src/styles.css) since the shared styles are meant to be reused across
+   example components. Only the layout unique to this page lives here. */
+
+/* Page wrapper for the Directives example. */
+.directives {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* The "important" class toggled by the class-binding demo. */
+.important {
+  font-weight: bold;
+  color: #b3261e;
+}
+
+/* The progress bar driven by the style-binding demo. */
+.progress-bar {
+  height: 1rem;
+  background: #1a73e8;
+  border-radius: 4px;
+  margin: 12px 0;
+  transition: width 0.2s ease;
+}
+
+/* Reserves space for the *appIf block so toggling it doesn't shift the layout. */
+.conditional {
+  min-height: 1.5rem;
+}
+
+/* Remove the margin of the p element to keep the example from shifting every
+   time we toggle the visibility of the element. */
+.conditional p {
+  margin: 0;
+}

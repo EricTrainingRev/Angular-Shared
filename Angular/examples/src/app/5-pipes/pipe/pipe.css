@@ -1,0 +1,10 @@
+/* Most Pipe component styling lives in the global styles.css (src/styles.css)
+   since the shared styles are meant to be reused across example components.
+   Only the layout unique to this page lives here. */
+
+/* Page wrapper for the Pipes example. */
+.pipe {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}

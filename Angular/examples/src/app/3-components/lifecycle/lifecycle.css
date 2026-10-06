@@ -1,0 +1,24 @@
+/* Page-unique layout for the lifecycle child. The shared look (note, button,
+code, typography) comes from global styles.css; only this layout is local. */
+.lifecycle {
+  margin-block: 1rem 2rem;
+}
+
+/* Keep the log visually distinct from surrounding prose: a monospace list with
+the hook name emphasized so the sequence reads like a console trace. */
+.log {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fafafa;
+  padding: 0.75rem 1rem 0.75rem 2rem;
+  max-height: 18rem;
+  overflow-y: auto;
+}
+
+.log li {
+  margin-block: 0.35rem;
+}
+
+.log strong {
+  color: #333;
+}

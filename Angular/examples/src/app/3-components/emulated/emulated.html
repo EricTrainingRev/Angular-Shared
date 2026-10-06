@@ -1,0 +1,40 @@
+<div class="emulated">
+  <!-- ============================================================ -->
+  <!-- Component styles: ViewEncapsulation.Emulated (the default) -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>View encapsulation: Emulated</h2>
+
+    <p>
+      <strong>View encapsulation</strong> stops one component's CSS from leaking out and
+      affecting the rest of the app. <code>Emulated</code> (the default) does this by having
+      Angular add a unique attribute to each element in this component's template, then rewrite
+      this component's style selectors to include that attribute — so they match only these
+      elements.
+    </p>
+
+    <p>
+      The box below is styled by this component's own <code>emulated.css</code>. Because the
+      encapsulation is emulated, that styling applies <em>only here</em>: another component that
+      happened to use the same <code>.demo-box</code> class name would <em>not</em> pick up these
+      rules.
+    </p>
+
+    <!-- The styling for .demo-box lives in emulated.css and is scoped to this component. -->
+    <div class="demo-box">
+      <p>This panel is styled from <code>emulated.css</code> — and stays scoped to just this component.</p>
+    </div>
+
+    <p class="note">
+      This is the contrast you'll see on the assembled page: the <strong>no-scope</strong> example
+      uses the same <code>.demo-box</code> class name but with <code>ViewEncapsulation.None</code>,
+      where its styles go <em>global</em> and will restyle even this box here.
+    </p>
+
+    <p>
+      <strong>When to use:</strong> the emulated default for nearly every component — it gives you
+      isolation with no performance penalty. Reach for <code>ViewEncapsulation.None</code> only for
+      genuine global utility styles or to override a third-party component.
+    </p>
+  </section>
+</div>

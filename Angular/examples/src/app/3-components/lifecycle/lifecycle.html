@@ -1,0 +1,39 @@
+<div class="lifecycle">
+  <!-- ============================================================ -->
+  <!-- Component lifecycle: an on-screen log of hooks as they fire -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Component lifecycle</h2>
+
+    <p>
+      Angular runs a component through a fixed sequence of <strong>lifecycle hooks</strong> — special
+      methods that fire at defined moments in a component's life. This child logs each one to the
+      screen as it runs, in order, so you can watch it move through <code>ngOnChanges</code>,
+      <code>ngOnInit</code>, and on through to <code>ngOnDestroy</code>.
+    </p>
+
+    <p>
+      <!-- subjectName() is an input(): the parent can change it, which fires ngOnChanges. -->
+      The current subject is <strong>{{ subjectName() }}</strong>. When the parent changes it,
+      <code>ngOnChanges</code> fires — the hook built for reacting to input updates.
+    </p>
+
+    <p class="note">
+      <code>ngDoCheck</code>, <code>ngAfterContentChecked</code>, and <code>ngAfterViewChecked</code>
+      fire on <em>every</em> change-detection pass, not just once — which is why they repeat so
+      often in the log, and why you should avoid heavy work in them: they run constantly.
+    </p>
+
+    <button (click)="clearLog()">Clear log</button>
+
+    <!-- The log. @for renders one <li> per hook that has fired; @empty shows a fallback. -->
+    <ol class="log">
+      @for (entry of log(); track $index) {
+        <!-- $index keeps each item unique even though hooks repeat in the log. -->
+        <li><strong>{{ entry.hook }}</strong> &mdash; {{ entry.why }}</li>
+      } @empty {
+        <li>No hooks have fired yet.</li>
+      }
+    </ol>
+  </section>
+</div>

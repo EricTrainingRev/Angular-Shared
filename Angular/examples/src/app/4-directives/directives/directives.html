@@ -1,0 +1,153 @@
+<div class="directives">
+  <h1>Directives</h1>
+
+  <!-- ============================================================ -->
+  <!-- 1. Built-in directives: class and style bindings -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Built-in directives</h2>
+
+    <p>
+      Angular's built-in directives change how an element looks or behaves.
+      The most common ones toggle CSS classes and inline styles. In modern
+      Angular you apply these with <code>[class]</code> and
+      <code>[style]</code> bindings rather than the older
+      <code>ngClass</code> / <code>ngStyle</code> directives.
+    </p>
+
+    <h3>Class binding</h3>
+    <p>
+      <code>[class.important]</code> adds the <code>important</code> class to
+      the element only while the bound value is true.
+    </p>
+    <!-- [class.important] toggles the "important" class based on the signal value. -->
+    <button (click)="toggleImportant()">Toggle important</button>
+    <p [class.important]="isImportant()">This paragraph is styled by a class binding.</p>
+
+    <h3>Style binding</h3>
+    <p>
+      <code>[style.width]</code> sets the element's inline width from a value.
+      Here it drives a progress bar.
+    </p>
+    <!-- [style.width] sets the inline width from the progress signal. -->
+    <div class="progress-bar" [style.width.%]="progress()"></div>
+    <button (click)="decreaseProgress()">-</button>
+    <button (click)="increaseProgress()">+</button>
+    <p class="status">Progress: {{ progress() }}%</p>
+
+    <p>
+      <strong>When to use:</strong> reach for <code>[class]</code> and
+      <code>[style]</code> bindings to toggle a class or set a style from
+      component state. They are the modern replacement for the older
+      <code>ngClass</code> and <code>ngStyle</code> directives.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 2. Custom attribute directive: appHighlight -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Custom attribute directive</h2>
+
+    <p>
+      <code>appHighlight</code> is a custom attribute directive: it changes
+      how an element looks without changing the DOM structure. Applied as an
+      attribute, it paints the element's background when you hover over it.
+    </p>
+
+    <!-- appHighlight uses the default 'yellow' color. -->
+    <p appHighlight>Hover over me to see the default highlight.</p>
+
+    <!-- [appHighlight] passes a custom color via property binding. -->
+    <p [appHighlight]="'cyan'">Hover over me for a cyan highlight.</p>
+
+    <p>
+      <strong>When to use:</strong> write a custom attribute directive when
+      you need to reuse the same look-and-behavior change across many elements
+      — for example, a highlight, a tooltip, or a click-outside handler.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 3. Custom structural directive: appIf -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Custom structural directive</h2>
+
+    <p>
+      <code>appIf</code> is a custom structural directive: it adds or removes
+      an element from the DOM based on a boolean condition. It behaves like a
+      simplified version of the built-in <code>*ngIf</code>.
+    </p>
+
+    <button (click)="toggleConditionalContent()">Toggle content</button>
+    <!-- *appIf renders the block only while the condition is true. -->
+    <div class="conditional">
+      <p *appIf="showConditionalContent()">This content is shown by the custom appIf directive.</p>
+    </div>
+
+    <p>
+      <strong>When to use:</strong> build a custom structural directive when
+      you need to control whether a chunk of the DOM exists based on your own
+      logic — for example, a permission check or a loading state. For most
+      conditionals, the built-in <code>{{ '@if' }}</code> block is usually all
+      you need.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 4. One-way binding -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>One-way binding</h2>
+
+    <p>
+      One-way binding moves data from the component class to the template.
+      There are two common forms: interpolation and property binding.
+    </p>
+
+    <h3>Interpolation</h3>
+    <p>
+      <code>{{ '{{ username() }}' }}</code> renders the signal's value as text.
+    </p>
+    <!-- {{ username() }} is INTERPOLATION: it renders the signal's value as text. -->
+    <p>Hello, {{ username() }}!</p>
+
+    <h3>Property binding</h3>
+    <p>
+      <code>[disabled]</code> sets the button's disabled property from a value.
+    </p>
+    <!-- [disabled] is PROPERTY BINDING: it sets the button's disabled property. -->
+    <button [disabled]="isDisabled">this button is disabled</button>
+
+    <p>
+      <strong>When to use:</strong> use interpolation to display text and
+      property binding to set an element's property or attribute. Both flow
+      data one way — from the class to the template.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 5. Two-way binding: ngModel -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Two-way binding</h2>
+
+    <p>
+      Two-way binding keeps the component and the view in sync in both
+      directions. <code>[(ngModel)]</code> (the "banana in a box" syntax)
+      updates the signal when you type, and re-renders the text from it.
+    </p>
+
+    <!-- [(ngModel)] syncs the input value with the nickname signal in both directions. -->
+    <input [(ngModel)]="nickname" placeholder="Enter a nickname" />
+    <p>Your nickname is: <strong>{{ nickname() }}</strong></p>
+
+    <p>
+      <strong>When to use:</strong> use <code>[(ngModel)]</code> for form
+      inputs where the value and the component state must stay synchronized —
+      for example, a search box or a settings field. It requires importing
+      <code>FormsModule</code> in the component's <code>imports</code> array.
+    </p>
+  </section>
+</div>

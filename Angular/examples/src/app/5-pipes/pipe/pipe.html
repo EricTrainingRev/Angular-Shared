@@ -1,0 +1,98 @@
+<div class="pipe">
+  <h1>Pipes</h1>
+
+  <!-- ============================================================ -->
+  <!-- 1. Built-in pipes -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Built-in pipes</h2>
+
+    <p>
+      A pipe transforms a value for display in the template. You apply it with
+      the pipe character (<code>|</code>): <code>{{ '{{ value | pipeName }}' }}</code>.
+      Angular ships several built-in pipes for common formatting tasks.
+    </p>
+
+    <h3>Date pipe</h3>
+    <!-- The date pipe formats a Date object into a readable string. -->
+    <p>Raw: {{ today() }}</p>
+    <p>Formatted: {{ today() | date:'short' }}</p>
+
+    <h3>Uppercase and lowercase pipes</h3>
+    <!-- The uppercase and lowercase pipes change the case of a string. -->
+    <p>{{ 'hello' | uppercase }} and {{ 'WORLD' | lowercase }}</p>
+
+    <h3>Currency pipe</h3>
+    <!-- The currency pipe formats a number as currency. -->
+    <p>{{ price() | currency:'USD' }}</p>
+
+    <h3>Number pipe</h3>
+    <!-- The number pipe formats a number with a specific number of digits. -->
+    <p>{{ 3.14159 | number:'1.1-2' }}</p>
+
+    <h3>Json pipe</h3>
+    <!-- The json pipe converts an object to a JSON string for debugging. -->
+    <pre>{{ user() | json }}</pre>
+
+    <p>
+      <strong>When to use:</strong> reach for a built-in pipe to format dates,
+      numbers, currency, or case without writing your own logic. They are
+      declarative and keep the template readable.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 2. Custom pipe: square -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Custom pipe</h2>
+
+    <p>
+      When a built-in pipe doesn't fit, you can write your own. The
+      <code>square</code> pipe is a custom pipe that multiplies a number by
+      itself.
+    </p>
+
+    <!-- The square pipe transforms the baseNumber value into its square. -->
+    <p>The square of {{ baseNumber() }} is {{ baseNumber() | square }}.</p>
+
+    <p>
+      <strong>When to use:</strong> write a custom pipe when you need to reuse
+      the same transformation in several places — for example, a domain-specific
+      format that no built-in pipe provides.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 3. Pure vs impure pipes -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Pure vs impure pipes</h2>
+
+    <p>
+      A pipe is <strong>pure</strong> by default: it only re-runs when the
+      input value's <em>reference</em> changes. An <strong>impure</strong> pipe
+      re-runs on every change-detection cycle, so it catches in-place mutations
+      that a pure pipe misses.
+    </p>
+
+    <p>
+      Click the button to add an item. The <code>join</code> pipe below is
+      pure, so it won't update (the array reference stays the same). The
+      <code>joinImpure</code> pipe is impure, so it re-runs and shows the new
+      item.
+    </p>
+
+    <button (click)="addItem()">Add item</button>
+
+    <p class="status">Pure (join): {{ items() | join }}</p>
+    <p class="status">Impure (joinImpure): {{ items() | joinImpure }}</p>
+
+    <p>
+      <strong>When to use:</strong> default to pure pipes — they are efficient
+      and correct for primitive values and immutable data. Only reach for an
+      impure pipe when you must react to in-place changes inside a mutable
+      object or array.
+    </p>
+  </section>
+</div>

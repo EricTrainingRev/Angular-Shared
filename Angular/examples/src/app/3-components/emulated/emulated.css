@@ -1,0 +1,17 @@
+/* The emulated child's own styles. Because ViewEncapsulation.Emulated scopes
+them, these rules match ONLY this component's elements — the no-scope sibling
+component on the assembled page uses the same .demo-box class name but keeps
+its own look here. */
+.demo-box {
+  border: 2px dashed teal;
+  border-left: 6px solid teal;
+  background: #f0faf9;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+}
+
+/* Zero the box paragraph's default top/bottom margin so the dashed border hugs
+the text tightly. */
+.demo-box p {
+  margin: 0;
+}

@@ -1,0 +1,35 @@
+/* ViewEncapsulation.None: every rule here goes global (injected into the head).
+The .no-scope-box rule below therefore matches ANY element carrying this class
+anywhere in the app, not just this component's own box. On the assembled page,
+a duplicate .no-scope-box placed directly in the page will pick up this coral look,
+while the emulated sibling keeps its teal: that sibling's own scoped rule has an
+ng-content attribute on its selector, so it wins on specificity inside that
+component. */
+.no-scope-box {
+  border: 2px dashed #d97706;
+  border-left: 6px solid #d97706;
+  background: #fff7ed;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+}
+
+/* Zero the box paragraph's default top/bottom margin so the dashed border hugs
+the text tightly. */
+.no-scope-box p {
+  margin: 0;
+}
+
+/* A reusable "utility" style that is available APP-WIDE precisely because None
+makes it global: the page can apply .no-scope-highlight-box to elements in other
+components. Declared in this (None) stylesheet rather than global styles.css to
+demonstrate the pattern. */
+.no-scope-highlight-box {
+  background: #fff3cd;
+  border: 1px solid #ffe08a;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+}
+
+.no-scope-highlight-box p {
+  margin: 0;
+}

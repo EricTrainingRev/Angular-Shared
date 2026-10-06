@@ -1,0 +1,139 @@
+<div class="components">
+  <h1>Components</h1>
+
+  <p>
+    A <strong>component</strong> is a self-contained piece of UI — a template plus a class plus
+    optional styles. A page is built by <em>composing</em> components: this page imports four
+    children and renders them, then shows change detection and walks through the module story.
+  </p>
+
+  <!-- Each child below is a self-contained example. The lifecycle child renders its
+       own hooks as they fire; the dynamic-widget child swaps between two widgets via
+       [ngComponentOutlet]; emulated and no-scope show the two encapsulation strategies. -->
+
+  <!-- 1. Lifecycle child, with the parent supplying its input -->
+  <!-- [subjectName] binds the parent's signal into the child's input(). Changing it
+       fires the child's ngOnChanges hook, which the child logs on screen. -->
+  <p>
+    The page supplies the <code>subjectName</code> input to the lifecycle child below. Change the
+    name and the child's <code>ngOnChanges</code> hook fires — an input update in action.
+  </p>
+  <div class="subject-row">
+    <!-- #subjectName is a template reference to the input, read on click. -->
+    <input #subjectName placeholder="New subject name" />
+    <button (click)="updateSubjectName(subjectName.value)">Update subject</button>
+  </div>
+  <app-lifecycle [subjectName]="subjectNameValue()" />
+
+  <!-- 2. Dynamic-widget child -->
+  <app-dynamic-widget />
+
+  <!-- 3. Encapsulation pair: emulated (scoped) vs none (global), plus the leak -->
+  <!-- The two children use the SAME teaching idea with different strategies. To see
+       the global "leak" of no-scope, the box below the children lives here in the
+       PARENT page — outside the no-scope component — yet still turns coral. -->
+  <section>
+    <h2>Component styles: Emulated vs None</h2>
+    <p>
+      These two children style a <code>.demo-box</code> / <code>.no-scope-box</code> panel. The
+      emulated child keeps its styles scoped; the no-scope child's styles go global. The telltale
+      difference is the box right below: it is written in <em>this page</em>, outside both
+      children.
+    </p>
+
+    <app-emulated />
+    <app-no-scope />
+
+    <!-- This element is NOT inside either child. It turns coral (the no-scope color)
+         because no-scope's ViewEncapsulation.None rules were injected globally — proof
+         that the styles leaked out of that component. Angular never isolates them. -->
+    <div class="no-scope-box">
+      <p>
+        This box lives in the <strong>parent page</strong>, outside the no-scope child, and this
+        component never declared the <code>.no-scope-box</code> style — yet it turns coral anyway.
+        That is the global reach of <code>ViewEncapsulation.None</code>.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. Change detection: OnPush + signals -->
+  <section>
+    <h2>Change detection: OnPush + signals</h2>
+
+    <p>
+      <strong>Change detection</strong> is how Angular decides the DOM needs updating when data
+      changes. Two strategies control how often a component is checked:
+      <code>Default</code> (checked on every change-detection pass) and <code>OnPush</code>
+      (checked only when an input reference changes, an event fires inside it, or a signal it
+      reads is updated). This page uses <code>OnPush</code>.
+    </p>
+
+    <!-- Clicking +/- updates the counter signal. Because doubledCount and counterParity
+         are computed() from it, they recompute and re-render automatically. -->
+    <div class="row">
+      <button (click)="decrement()">-</button>
+      <span class="count">{{ counterValue() }}</span>
+      <button (click)="increment()">+</button>
+    </div>
+    <p>
+      Derived values: doubled <strong>{{ doubledCount() }}</strong> &middot; parity
+      <strong>{{ counterParity() }}</strong>
+    </p>
+
+    <p class="note">
+      <strong>What's happening:</strong> the counter is a signal, and the doubled/parity values are
+      derived from it with <code>computed()</code>. Under <code>OnPush</code> — and this app's
+      zoneless setup — updating that signal re-renders only the parts that read it, instead of
+      checking the whole tree.
+    </p>
+    <p class="note">
+      <strong>Why it matters:</strong> because of that, treat state immutably. Signals make this
+      natural: rather than mutating a property on an existing object (which Angular may not notice),
+      replace the whole value with a signal update.
+    </p>
+  </section>
+
+  <!-- 5. Modules: NgModule vs standalone (narrative) -->
+  <section>
+    <h2>Modules: NgModule vs standalone</h2>
+
+    <p>
+      Older Angular grouped components into <strong>NgModules</strong> — a container that declares
+      which components belong to it, which other modules it needs, and which parts it exposes.
+      Modern Angular (v15+) supports <strong>standalone components</strong>, which list their own
+      dependencies in the <code>imports</code> array of <code>@Component</code> and act as their
+      own mini-module. For new work, standalone is the default — no NgModule required.
+    </p>
+
+    <!-- Two global .card blocks compare the old container model with the standalone model. -->
+    <div class="modules">
+      <div class="card">
+        <h3 class="card-header">NgModule (legacy)</h3>
+        <div class="card-body">
+          <ul>
+            <li><strong>declarations</strong> — the components, directives, and pipes that belong to this module.</li>
+            <li><strong>imports</strong> — other modules this one needs (e.g. <code>FormsModule</code>).</li>
+            <li><strong>exports</strong> — what other modules are allowed to use.</li>
+            <li><strong>providers</strong> — services available within this module.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-header">Standalone (modern)</h3>
+        <div class="card-body">
+          <ul>
+            <li>Each component is its own mini-module.</li>
+            <li>Lists its dependencies in the <code>imports</code> of <code>@Component</code>.</li>
+            <li>No <code>NgModule</code> needed for most new work.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      Understanding NgModules still matters because a great deal of existing code uses them — but
+      newly written components are overwhelmingly standalone.
+    </p>
+  </section>
+</div>
