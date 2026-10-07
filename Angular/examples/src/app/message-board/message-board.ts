@@ -47,6 +47,9 @@ export class MessageBoard {
 
   // Called from the template when the user clicks "Rename board".
   // Emits a new title so the parent can update the value it passes back down.
+  // So two things are happening:
+  // - emit is actually triggering our "titleChanged" event
+  // - it is also passing our data (hard coded string here) along with the event
   protected renameBoard(): void {
     this.titleChanged.emit('Board renamed by the child');
   }

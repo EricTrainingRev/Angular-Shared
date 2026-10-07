@@ -35,7 +35,7 @@
 
     <!-- [title] sends the boardTitle signal down into the child's @Input title.
          The child renders it in its header. -->
-    <app-message-board [title]="boardTitle()" [message]="parentMessage()" />
+    <app-message-board [title]="boardTitle()" [message]="parentMessage()"/>
   </section>
 
   <!-- ============================================================ -->
@@ -51,6 +51,7 @@
 
     <!-- (messageSent) is EVENT BINDING: when the child emits messageSent, the
          parent's onMessageSent runs with the emitted value in $event. -->
+
     <app-message-board
       [title]="boardTitle()"
       [message]="parentMessage()"
