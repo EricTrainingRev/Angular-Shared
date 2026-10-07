@@ -1,0 +1,8 @@
+/* Layout for the 404 view. */
+
+.not-found {
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 1rem;
+  text-align: center;
+}

@@ -1,0 +1,174 @@
+<div class="async-http">
+  <h1>Async &amp; HTTP</h1>
+
+  <!--
+    This page covers the three RxJS/async topics Angular developers reach for
+    every day: Observables, Subjects, and HttpClient. Each section is
+    self-contained and demonstrates one idea by doing it.
+  -->
+
+  <!-- ===================== Section A: Observables ===================== -->
+  <section>
+    <h2>Observables</h2>
+
+    <!--
+      An Observable is a stream of values over time. The key idea: it is LAZY.
+      Declaring an Observable does nothing — the work only starts when something
+      SUBSCRIBES. That is why the DataService returns an Observable instead of
+      the data itself: the caller decides when the request fires.
+
+      Below we consume the same posts$ Observable two ways:
+        1. A manual .subscribe() that writes into a signal.
+        2. The AsyncPipe in the template, which subscribes for us.
+    -->
+
+    <h3>Manual subscribe</h3>
+    <p>
+      This list is filled by a manual <code>.subscribe()</code> in the component
+      that writes each emitted value into a signal. The subscription is cleaned
+      up with <code>takeUntilDestroyed()</code> so it never leaks when the page
+      is navigated away from.
+    </p>
+    <ul class="post-list">
+      @for (post of manualPosts(); track post.id) {
+        <li><strong>{{ post.id }}.</strong> {{ post.title }}</li>
+      } @empty {
+        <li>No posts yet — the request is still in flight.</li>
+      }
+    </ul>
+
+    <h3>AsyncPipe</h3>
+    <p>
+      The <code>AsyncPipe</code> (from <code>@angular/common</code>) subscribes
+      to the Observable in the template and unsubscribes automatically when the
+      component is destroyed — no manual cleanup needed. It is the idiomatic
+      way to render an Observable in Angular.
+    </p>
+    <ul class="post-list">
+      @for (post of posts$ | async; track post.id) {
+        <li><strong>{{ post.id }}.</strong> {{ post.title }}</li>
+      } @empty {
+        <li>Loading posts…</li>
+      }
+    </ul>
+
+    <p><strong>When to use:</strong> Observables whenever data arrives over time
+      — HTTP responses, user input, timers, or any stream. Prefer the AsyncPipe
+      for rendering so Angular owns the subscription lifecycle; reach for a
+      manual <code>.subscribe()</code> only when you need to react to values in
+      component logic, and pair it with <code>takeUntilDestroyed()</code>.</p>
+  </section>
+
+  <!-- ===================== Section B: Subjects ===================== -->
+  <section>
+    <h2>Subjects</h2>
+
+    <!--
+      A Subject is both a source and a sink: you push values in with .next()
+      and every subscriber receives them. The three flavors differ only in what
+      a NEW subscriber receives on joining:
+        Subject          — nothing from before it subscribed.
+        BehaviorSubject  — the single most recent value.
+        ReplaySubject(3) — the last 3 values, replayed in order.
+
+      Type a value, emit it, then click "Join a late subscriber". After a short
+      delay a new subscriber joins each subject and the log panel shows what
+      each one received — the buffering contrast in action.
+    -->
+
+    <div class="row">
+      <input
+        [value]="subjectInput()"
+        (input)="updateSubjectInput($any($event.target).value)"
+        placeholder="Type a value to emit"
+        aria-label="Value to emit to the subjects"
+      />
+      <button type="button" (click)="emitToSubjects()">Emit</button>
+      <button type="button" (click)="subscribeLate()">Join a late subscriber</button>
+    </div>
+
+    <div class="subject-log">
+      <div class="subject-column">
+        <h3>Subject</h3>
+        <p class="subject-note">New subscribers get nothing from before they joined.</p>
+        <ul>
+          @for (value of plainLog(); track value) {
+            <li>{{ value }}</li>
+          } @empty {
+            <li class="muted">No values received yet.</li>
+          }
+        </ul>
+      </div>
+
+      <div class="subject-column">
+        <h3>BehaviorSubject</h3>
+        <p class="subject-note">New subscribers get the single most recent value.</p>
+        <ul>
+          @for (value of behaviorLog(); track value) {
+            <li>{{ value }}</li>
+          } @empty {
+            <li class="muted">No values received yet.</li>
+          }
+        </ul>
+      </div>
+
+      <div class="subject-column">
+        <h3>ReplaySubject(3)</h3>
+        <p class="subject-note">New subscribers get the last 3 values, in order.</p>
+        <ul>
+          @for (value of replayLog(); track value) {
+            <li>{{ value }}</li>
+          } @empty {
+            <li class="muted">No values received yet.</li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <p><strong>When to use:</strong> a Subject when you need a shared stream that
+      multiple parts of the app can push into and read from — e.g. a service
+      broadcasting events. Reach for <code>BehaviorSubject</code> when consumers
+      should always have a current value (like a selected item or auth state), and
+      <code>ReplaySubject</code> when late subscribers should catch up on recent
+      history (like a chat or a log).</p>
+  </section>
+
+  <!-- ===================== Section C: HttpClient ===================== -->
+  <section>
+    <h2>HttpClient</h2>
+
+    <!--
+      HttpClient is Angular's built-in HTTP client. It returns Observables, so
+      it fits the async model above. The request below hits the public
+      JSONPlaceholder API. The fetchStatus signal drives the loading / error /
+      data states rendered with @switch.
+    -->
+
+    <button type="button" (click)="loadPosts()">Load posts</button>
+
+    @switch (fetchStatus()) {
+      @case ('idle') {
+        <p class="status">Idle — click "Load posts" to fetch from the API.</p>
+      }
+      @case ('loading') {
+        <p class="status">Loading…</p>
+      }
+      @case ('error') {
+        <p class="status error">{{ errorMessage() }}</p>
+      }
+      @case ('success') {
+        <ul class="post-list">
+          @for (post of posts(); track post.id) {
+            <li><strong>{{ post.id }}.</strong> {{ post.title }}</li>
+          }
+        </ul>
+      }
+    }
+
+    <p><strong>When to use:</strong> HttpClient for any HTTP request — GET, POST,
+      PUT, DELETE — to a backend API. It handles JSON parsing, error handling,
+      and request cancellation for you, and its Observables compose with the
+      rest of RxJS. Always surface a loading state and an error state so the UI
+      is never blank or silently broken.</p>
+  </section>
+</div>

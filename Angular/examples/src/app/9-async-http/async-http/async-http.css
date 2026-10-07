@@ -1,0 +1,66 @@
+/* Page wrapper for the Async & HTTP example. */
+.async-http {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* The on-page log panel for the Subject section: three columns side by side,
+   one per Subject flavor, so the buffering contrast reads at a glance. */
+.subject-log {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.subject-column {
+  flex: 1;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+}
+
+.subject-column h3 {
+  margin-top: 0;
+}
+
+.subject-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+
+.subject-column li {
+  padding: 0.15rem 0;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+/* A short caption under each Subject column explaining its buffering rule. */
+.subject-note {
+  font-size: 0.9rem;
+  color: #5f6368;
+  margin: 0.25rem 0 0.5rem;
+}
+
+/* Muted placeholder text inside the log columns before any values arrive. */
+.muted {
+  color: #9e9e9e;
+}
+
+/* The shared post list used by the Observables and HttpClient sections. */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.post-list li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Error state text, distinct from the neutral .status bar. */
+.status.error {
+  color: #b3261e;
+  background: #fce8e6;
+}

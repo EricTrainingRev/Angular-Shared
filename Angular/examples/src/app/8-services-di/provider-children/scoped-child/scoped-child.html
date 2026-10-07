@@ -1,0 +1,55 @@
+<div class="scoped-child">
+  <!-- ============================================================ -->
+  <!-- The component-scoped instance                                -->
+  <!-- ============================================================ -->
+  <!-- This child declares providers: [TaskStoreService] on its own @Component,
+       so inject() below resolves to a BRAND-NEW instance created right here —
+       not the root singleton. It starts empty, shares nothing with the rest of
+       the page, and is destroyed with this component. -->
+  <section>
+    <h2>Child B — a component-scoped instance</h2>
+
+    <p>
+      This component lists <code>TaskStoreService</code> in its own
+      <code>providers: [...]</code> array. Now DI stops at the <em>nearest</em> provider
+      — this component — and builds a fresh, <strong>private empty</strong> store. It is
+      completely separate from the shared list above: add a task here and the container's
+      list stays untouched.
+    </p>
+
+    <div class="status">Scoped open tasks: {{ openTaskCount() }}</div>
+
+    <!-- This form writes to THIS child's own private store instance. -->
+    <div class="row">
+      <input
+        #scopedTitle
+        type="text"
+        placeholder="Private task title"
+        [value]="newTaskTitle()"
+        (input)="updateNewTaskTitle(scopedTitle.value)"
+      />
+      <button (click)="addTask()">Add private task</button>
+    </div>
+
+    <ul class="task-list">
+      @for (task of tasks(); track task.id) {
+        <li [class.done]="task.done">
+          <input
+            type="checkbox"
+            [checked]="task.done"
+            (change)="toggleTask(task.id)"
+          />
+          <span>{{ task.title }}</span>
+        </li>
+      } @empty {
+        <li>This private store is empty — separate from the shared list.</li>
+      }
+    </ul>
+
+    <p class="note">
+      <strong>When to use a component-scoped service:</strong> private or throwaway
+      per-widget state — a form draft, an unsaved editor buffer — that must never collide
+      with the rest of the app. It is born with the component and dies with it.
+    </p>
+  </section>
+</div>

@@ -1,0 +1,43 @@
+<div class="singleton-child">
+  <!-- ============================================================ -->
+  <!-- The shared ROOT singleton view                              -->
+  <!-- ============================================================ -->
+  <!-- This child deliberately declares NO providers array, so DI walks up to
+       the root injector and hands it the SAME TaskStoreService the container
+       uses. It is not a separate copy — it is the one shared object. -->
+  <section>
+    <h2>Child A — the shared root singleton</h2>
+
+    <p>
+      This child provides nothing locally, so asking for <code>TaskStoreService</code>
+      makes DI walk up to the <strong>root</strong> injector and return the app-wide
+      singleton. It renders the <em>same</em> list — not a copy. Check a box below and
+      the container's "open tasks" badge updates instantly because both read one object.
+    </p>
+
+    <div class="status">Shared open tasks: {{ openTaskCount() }}</div>
+
+    <ul class="task-list">
+      <!-- Toggling here calls the store's toggleTask, mutating the shared
+           singleton — proof that this child and the container are the same store. -->
+      @for (task of tasks(); track task.id) {
+        <li [class.done]="task.done">
+          <input
+            type="checkbox"
+            [checked]="task.done"
+            (change)="toggleTask(task.id)"
+          />
+          <span>{{ task.title }}</span>
+        </li>
+      } @empty {
+        <li>No tasks yet.</li>
+      }
+    </ul>
+
+    <p class="note">
+      <strong>Why it works:</strong> <code>providedIn: 'root'</code> registered one
+      instance in the root injector. This child and the container both resolve to that
+      one object, so edits from either side appear in both.
+    </p>
+  </section>
+</div>

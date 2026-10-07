@@ -1,0 +1,55 @@
+<div class="routing">
+  <h1>Routing</h1>
+
+  <p>
+    Angular is a single-page app: navigating never reloads the page. The router
+    maps a URL to a component and swaps it into a <code>&lt;router-outlet&gt;</code>.
+    This page adds its own secondary navigation, so the links below are routing
+    in action, and the <em>child views</em> they point to render in the nested
+    outlet at the bottom.
+  </p>
+
+  <!-- This sub-nav uses RouterLink + RouterLinkActive, just like the main shell
+       nav, but its links point at CHILD routes of this page (/routing/...). -->
+  <nav class="sub-nav">
+    <!-- [routerLinkActiveOptions]={ exact: true } stops the home link staying
+         active when a child route like /routing/products is selected. -->
+    <a routerLink="/routing" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+      >Routing home</a
+    >
+    <a routerLink="/routing/products" routerLinkActive="active">Products</a>
+    <a routerLink="/routing/secret" routerLinkActive="active">Secret</a>
+  </nav>
+
+  <!-- Programmatic navigation: this button triggers navigate() in code rather
+       than a routerLink. Use it when navigation is decided by logic (e.g. after
+       a login succeeds), not by a click on a link. -->
+  <p>
+    <button (click)="goToProducts()">Go to products (programmatic)</button>
+  </p>
+
+  <!-- Route guard demo: authentication state + a toggle. Changing it here changes
+       whether the "Secret" link (protected by canActivate) is allowed. -->
+  <section>
+    <h2>Route guard demo</h2>
+
+    <p>
+      The <strong>Secret</strong> link above is protected by a
+      <code>CanActivate</code> guard. When you are <em>logged out</em>, the guard
+      blocks the navigation and redirects you back here; when you are
+      <em>logged in</em>, the page is shown.
+    </p>
+
+    <p>
+      Status:
+      <strong>{{ isAuthenticated() ? 'logged in' : 'logged out' }}</strong>
+    </p>
+    <button (click)="toggleAuth()">
+      {{ isAuthenticated() ? 'Log out' : 'Log in' }}
+    </button>
+  </section>
+
+  <!-- Child views of this route render here (routing home, products, product
+       detail, or secret), swapped by the URL in the sub-nav above. -->
+  <router-outlet />
+</div>

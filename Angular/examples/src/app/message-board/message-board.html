@@ -1,0 +1,24 @@
+<!--
+  MessageBoard is a reusable child component. It demonstrates the two
+  directions of component communication:
+
+  - Inputs (down): the parent passes data in via [title] and [message].
+  - Outputs (up): the child raises events via (titleChanged) and (messageSent).
+
+  The decorator API (@Input/@Output) and the signal API (input()/output())
+  are bound by the parent with the exact same template syntax.
+-->
+<div class="board">
+  <!-- title is a decorator @Input: the parent supplies it with [title]="...". -->
+  <h3 class="board-title">{{ title }}</h3>
+
+  <!-- message is a signal input(): read with message() like any signal. -->
+  <p class="board-message">{{ message() }}</p>
+
+  <div class="board-actions">
+    <!-- messageSent is a signal output(): .emit() raises the event for the parent. -->
+    <button (click)="sendMessageUp()">Send message up</button>
+    <!-- titleChanged is a decorator @Output: .emit() raises the event for the parent. -->
+    <button (click)="renameBoard()">Rename board</button>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+/* Layout only for the RoutingHome view; shared styles come from global. */
+
+.routing-home {
+  padding: 0.5rem 0;
+}
+
+.routing-home a {
+  display: inline-block;
+  margin-right: 1rem;
+}

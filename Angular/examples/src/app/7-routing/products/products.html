@@ -1,0 +1,25 @@
+<div class="products">
+  <h2>Products</h2>
+
+  <p>
+    Each product links to its detail route. The link bundles the product's
+    <code>id</code> into the URL as a parameter: the array form
+    <code>[routerLink]="['/routing', 'product', product.id]"</code> builds
+    e.g. <code>/routing/product/2</code>.
+  </p>
+
+  <ul class="product-list">
+    <!-- @for renders one row per product; track gives Angular a stable identity. -->
+    @for (product of products; track product.id) {
+      <li>
+        <a [routerLink]="['/routing', 'product', product.id]">{{ product.name }}</a>
+        <span class="price">${{ product.price }}</span>
+      </li>
+    }
+  </ul>
+
+  <p class="note">
+    The detail page reads the <code>:id</code> parameter back out of the URL
+    with <code>ActivatedRoute</code> and shows the matching product.
+  </p>
+</div>

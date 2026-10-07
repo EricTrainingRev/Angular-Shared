@@ -1,0 +1,28 @@
+/* Component-specific layout for the routing demo. Shared patterns (.note,
+   section, button) come from the global styles.css. */
+
+.routing {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Secondary navigation for the nested routes. Reuses the .active concept from
+   the main shell nav but is scoped to this page's sub-routes. */
+.sub-nav {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 1rem;
+}
+
+.sub-nav a {
+  text-decoration: none;
+  color: #444;
+}
+
+.sub-nav a.active {
+  color: #1a73e8;
+  font-weight: bold;
+}

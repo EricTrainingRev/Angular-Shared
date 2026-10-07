@@ -1,0 +1,25 @@
+/* MessageBoard is a reusable child component, so its layout styles live here
+   in its own stylesheet while the shared .card/.note patterns stay global. */
+
+.board {
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  background: #fafafa;
+}
+
+.board-title {
+  margin: 0 0 0.5rem;
+  color: #1a73e8;
+}
+
+.board-message {
+  margin: 0 0 0.75rem;
+  font-style: italic;
+}
+
+.board-actions {
+  display: flex;
+  gap: 0.5rem;
+}

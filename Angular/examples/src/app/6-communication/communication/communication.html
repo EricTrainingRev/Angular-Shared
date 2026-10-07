@@ -1,0 +1,98 @@
+<div class="communication">
+  <h1>Communication</h1>
+
+  <p>
+    Angular components talk to each other in one strict pattern:
+    <strong>data flows down</strong> (parent &rarr; child) and
+    <strong>events flow up</strong> (child &rarr; parent). This page uses the
+    <code>MessageBoard</code> child to show both directions, with the
+    traditional decorator API (<code>@Input</code>/<code>@Output</code>) and the
+    modern signal API (<code>input()</code>/<code>output()</code>) side by side.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- 1. Parent -> child: passing data down via inputs -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Parent &rarr; child: inputs</h2>
+
+    <p>
+      The parent passes data <em>down</em> into the child with property binding.
+      Type in the box and the child below re-renders — the value travels from
+      the parent's signal, through <code>[message]</code>, into the child.
+    </p>
+
+    <!-- [message] is PROPERTY BINDING: it sends the parent's signal value down
+         into the child's message input(). The child reads it with message(). -->
+    <input
+      [value]="parentMessage()"
+      (input)="parentMessage.set($event.target.value)"
+      placeholder="Type a message for the child"
+    />
+    <p>
+      Parent is sending: <strong>{{ parentMessage() }}</strong>
+    </p>
+
+    <!-- [title] sends the boardTitle signal down into the child's @Input title.
+         The child renders it in its header. -->
+    <app-message-board [title]="boardTitle()" [message]="parentMessage()" />
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 2. Child -> parent: events flowing up via outputs -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Child &rarr; parent: outputs</h2>
+
+    <p>
+      The child sends data <em>up</em> by emitting an event. The parent listens
+      with event binding and reacts. Click the child's buttons below.
+    </p>
+
+    <!-- (messageSent) is EVENT BINDING: when the child emits messageSent, the
+         parent's onMessageSent runs with the emitted value in $event. -->
+    <app-message-board
+      [title]="boardTitle()"
+      [message]="parentMessage()"
+      (messageSent)="onMessageSent($event)"
+      (titleChanged)="onTitleChanged($event)"
+    />
+
+    <p class="status">
+      Child sent up: {{ receivedFromChild() }}
+    </p>
+
+    <p class="note">
+      <strong>Round trip:</strong> click <em>Rename board</em> in the child. The
+      child emits <code>titleChanged</code>, the parent updates
+      <code>boardTitle</code>, and the new title flows back <em>down</em> into
+      the child's <code>[title]</code>. That is the full loop: up, then down.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 3. Two-way binding: [(ngModel)] -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>Two-way binding: {{ '[(ngModel)]' }}</h2>
+
+    <p>
+      Two-way binding keeps a value in sync in both directions at once. The
+      <code>{{ '[(ngModel)]' }}</code> syntax (the "banana in a box") is sugar
+      for a property binding plus an event binding: it reads the value into the
+      input and writes it back when the user types.
+    </p>
+
+    <!-- [(ngModel)] is TWO-WAY BINDING: typing updates the nickname signal,
+         and the display below re-renders automatically. Requires FormsModule. -->
+    <input [(ngModel)]="nickname" placeholder="Enter a nickname" />
+    <p>Your nickname is: <strong>{{ nickname() }}</strong></p>
+
+    <p class="note">
+      <strong>When to use:</strong> reach for two-way binding for form inputs
+      where the value and the view must stay in sync. For most other cases,
+      prefer explicit one-way binding (<code>[value]</code> + an event) so the
+      data flow stays easy to trace.
+    </p>
+  </section>
+</div>

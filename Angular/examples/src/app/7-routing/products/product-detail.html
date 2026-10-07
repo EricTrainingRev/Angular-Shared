@@ -1,0 +1,21 @@
+<div class="product-detail">
+  <!-- @if/@else: if the id resolved to a real product, show it; otherwise
+       explain that the id didn't match anything. -->
+  @if (product) {
+    <h2>{{ product.name }}</h2>
+    <p class="price">Price: ${{ product.price }}</p>
+  } @else {
+    <h2>Unknown product</h2>
+    <p>No product has the id "{{ id }}".</p>
+  }
+
+  <p>
+    <a [routerLink]="['/routing', 'products']">Back to products</a>
+  </p>
+
+  <p class="note">
+    The <code>id</code> shown in the URL (e.g. <code>/routing/product/2</code>)
+    is a route parameter. This page read it with <code>ActivatedRoute</code> and
+    looked the product up in the shared catalog.
+  </p>
+</div>

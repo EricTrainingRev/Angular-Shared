@@ -1,0 +1,85 @@
+<div class="services-di">
+  <h1>Services &amp; Dependency Injection</h1>
+
+  <p>
+    A <strong>service</strong> is a class with one narrow job — here, owning shared
+    to-do state. <strong>Dependency Injection (DI)</strong> is how Angular hands that
+    service to any component that asks for it, instead of the component constructing it
+    with <code>new</code>. This page injects a <code>TaskStoreService</code> and renders
+    two children that expose the two service scopes: shared singleton vs component-scoped.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- Section 1: the shared task list (via the root singleton)     -->
+  <!-- ============================================================ -->
+  <section>
+    <h2>1. The shared task list — a root singleton</h2>
+
+    <p>
+      The page injects <code>TaskStoreService</code> with the modern
+      <code>inject()</code> function. The store holds the list in a
+      <code>signal</code> and derives the open-count with <code>computed()</code>. This
+      page never works on a copy — it forwards the store's signals, so everything here
+      reflects the single source of truth.
+    </p>
+
+    <!-- openTaskCount() is a computed() in the store: derived from tasks(), it
+         stays correct with no second stored copy of the data. -->
+    <div class="status">Open tasks: {{ openTaskCount() }}</div>
+
+    <!-- The form's draft title is component-local UI state (a local signal), NOT
+         shared store data — draft text belongs to this view alone. -->
+    <div class="row">
+      <input
+        #title
+        type="text"
+        placeholder="New task title"
+        [value]="newTaskTitle()"
+        (input)="updateNewTaskTitle(title.value)"
+      />
+      <button (click)="addTask()">Add task</button>
+    </div>
+
+    <!-- Each action calls a thin wrapper that forwards to a store method. The
+         component never calls store.tasks.set() directly. -->
+    <ul class="task-list">
+      @for (task of tasks(); track task.id) {
+        <li [class.done]="task.done">
+          <!-- [class.done] toggles the CSS class off/on from the task's state,
+               so finished items render struck-through. -->
+          <input
+            type="checkbox"
+            [checked]="task.done"
+            (change)="toggleTask(task.id)"
+          />
+          <span>{{ task.title }}</span>
+          <button (click)="removeTask(task.id)">Remove</button>
+        </li>
+      } @empty {
+        <li>No tasks yet — add one above.</li>
+      }
+    </ul>
+
+    <p class="note">
+      <strong>What's happening:</strong> <code>providedIn: 'root'</code> registered a
+      single instance in the root injector. This page and Child A below both resolve to
+      that one object, so state added or toggled here is shared with Child A — but NOT
+      with Child B, which provides its own instance.
+    </p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- Section 2: the two provider children (singleton vs scoped)   -->
+  <!-- ============================================================ -->
+  <p>
+    The two children below demonstrate the provider contrast in real time. Clicking a
+    check in Child A updates the shared badge; adding to Child B touches an entirely
+    separate, private list.
+  </p>
+
+  <!-- Child A: no local provider → DI resolves from the ROOT singleton (shared).
+       Child B: declares providers: [TaskStoreService] → DI builds a NEW, private
+       instance local to that component (isolated). -->
+  <app-singleton-child />
+  <app-scoped-child />
+</div>

@@ -1,0 +1,6 @@
+/* The services & DI page's own styles. The status bar, form row, buttons,
+   and task list are shared global styles; only the page-level layout and
+   spacing unique to this example live here. */
+.services-di h1 {
+  margin-bottom: 0.25rem;
+}

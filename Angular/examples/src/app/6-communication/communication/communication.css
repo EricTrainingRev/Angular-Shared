@@ -1,0 +1,9 @@
+/* Most Communication styling lives in the global styles.css (src/styles.css)
+   since the shared .note/.status/.card patterns are reused across examples.
+   Only the page-specific layout lives here. */
+
+.communication {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}

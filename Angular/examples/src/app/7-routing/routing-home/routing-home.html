@@ -1,0 +1,22 @@
+<div class="routing-home">
+  <h2>Routing home</h2>
+
+  <p>
+    This is the default child view of the <code>/routing</code> route. It renders
+    in the nested <code>&lt;router-outlet&gt;</code> of the page above. The links
+    below are <strong>declarative</strong> navigation via <code>RouterLink</code>.
+  </p>
+
+  <!-- Declarative navigation with a plain string path. -->
+  <a routerLink="/routing/products">Go to products</a>
+
+  <p>
+    A route can carry a <strong>parameter</strong>, written <code>:id</code> in
+    the route definition. The array form of <code>routerLink</code> builds the
+    URL — each array item is one URL segment, so <code>['/routing', 'product',
+    1]</code> becomes <code>/routing/product/1</code>.
+  </p>
+
+  <!-- Declarative navigation with a parameter: the second segment is dynamic. -->
+  <a [routerLink]="['/routing', 'product', 1]">View product 1 (with :id param)</a>
+</div>

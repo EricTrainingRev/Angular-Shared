@@ -1,0 +1,8 @@
+/* The singleton child's own styles. Only the layout unique to this child
+   lives here; the task list, status bar, and buttons are shared global
+   styles so every example renders the same way. */
+
+/* Keep the checkbox sitting snugly against its label text. */
+.singleton-child li span {
+  margin-left: 0.25rem;
+}

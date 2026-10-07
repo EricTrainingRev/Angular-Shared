@@ -1,0 +1,9 @@
+/* The scoped child's own styles. The task list, status bar, form, and buttons
+   are shared global styles; this child only needs a subtle treatment to signal
+   it is a separate, private store. */
+
+/* A soft border + light background groups this child visually as its own
+   isolated panel, distinct from the shared-list view above it. */
+.scoped-child section {
+  border-color: #d7c8e0;
+}

@@ -1,6 +1,12 @@
 import { Routes } from '@angular/router';
 
 import { App } from './angular-generated/app';
+import { authGuard } from './7-routing/guards/auth.guard';
+import { NotFound } from './7-routing/not-found/not-found';
+import { ProductDetail } from './7-routing/products/product-detail';
+import { Products } from './7-routing/products/products';
+import { RoutingHome } from './7-routing/routing-home/routing-home';
+import { Secret } from './7-routing/secret/secret';
 
 export const routes: Routes = [
   // The angular-generated welcome page, shown at the root path.
@@ -26,4 +32,41 @@ export const routes: Routes = [
     path: 'pipes',
     loadComponent: () => import('./5-pipes/pipe/pipe').then((m) => m.Pipe),
   },
+
+  {
+    path: 'communication',
+    loadComponent: () =>
+      import('./6-communication/communication/communication').then((m) => m.Communication),
+  },
+
+  // The routing demo loads lazily and hosts its own nested (child) routes. The
+  // child views render in the <router-outlet /> inside the Routing component.
+  {
+    path: 'routing',
+    loadComponent: () => import('./7-routing/routing/routing').then((m) => m.Routing),
+    children: [
+      { path: '', component: RoutingHome },
+      { path: 'products', component: Products },
+      { path: 'product/:id', component: ProductDetail },
+      // The Secret route is protected by a CanActivate guard: when not logged
+      // in, authGuard redirects to /routing instead of showing this page.
+      { path: 'secret', component: Secret, canActivate: [authGuard] },
+    ],
+  },
+
+  {
+    path: 'services-di',
+    loadComponent: () =>
+      import('./8-services-di/services-di/services-di').then((m) => m.ServicesDI),
+  },
+
+  {
+    path: 'async-http',
+    loadComponent: () =>
+      import('./9-async-http/async-http/async-http').then((m) => m.AsyncHTTP),
+  },
+
+  // The wildcard route must come LAST: it catches any URL that matched nothing
+  // else, so specific routes are always tried first.
+  { path: '**', component: NotFound },
 ];
