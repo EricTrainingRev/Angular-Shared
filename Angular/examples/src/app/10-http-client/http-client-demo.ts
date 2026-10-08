@@ -219,6 +219,11 @@ export class HttpClientDemo {
       .subscribe((res) => {
         this.response.set(res);
         this.responseStatus.set('success');
+        res.body; // gives access to the body
+        res.status; // gives access to the status code
+        res.headers; // gives access to the headers
+        res.ok // indicates whether or not the status code is in the 200 range
+        res.statusText; // old property for getting the text description of a status code: now deprecated
       });
   }
 

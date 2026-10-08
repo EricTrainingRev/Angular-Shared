@@ -40,6 +40,8 @@ export class HttpClientDataService {
 
   /** GET /posts — retrieve the full list of posts. */
   fetchPosts(): Observable<Post[]> {
+    // the type we provide as the generic tells our application what structure the
+    // response body takes
     return this.http.get<Post[]>(API_URL);
   }
 
@@ -55,6 +57,7 @@ export class HttpClientDataService {
 
   /** DELETE /posts/:id — remove a post. No body is returned. */
   deletePost(id: number): Observable<void> {
+    // use the void generic to indicate no body in the response
     return this.http.delete<void>(`${API_URL}/${id}`);
   }
 
@@ -64,8 +67,13 @@ export class HttpClientDataService {
    * params object rather than mutating the old one.
    */
   fetchPostsByUser(userId: number): Observable<Post[]> {
-    const params = new HttpParams().set('userId', String(userId));
+    // the value of the param can be string, number, or boolean
+    const params = new HttpParams().set('userId', userId);
     return this.http.get<Post[]>(API_URL, { params });
+    // the { params } above is equivalent to the example below
+    // {
+    //   params: params;
+    // }
   }
 
   /**
@@ -74,7 +82,9 @@ export class HttpClientDataService {
    * JSONPlaceholder API ignores it, but a real backend could read it.
    */
   fetchPostsWithHeader(): Observable<Post[]> {
-    const headers = new HttpHeaders().set('X-Demo-Header', 'http-client-demo');
+    let headers = new HttpHeaders().set('X-Demo-Header', 'http-client-demo');
+    headers = headers.set("Authorization", "Bearer my-auth-token-here");
+    headers = headers.set("OPENAI_ESQUE_API_KEY", "my-api-key-here");
     return this.http.get<Post[]>(API_URL, { headers });
   }
 
