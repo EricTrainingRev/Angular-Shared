@@ -1,0 +1,18 @@
+/* Page wrapper for the HTTP Client example, mirroring the other example pages. */
+.http-client-demo {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* The shared post list used by the HTTP verbs section. */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.post-list li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #eee;
+}

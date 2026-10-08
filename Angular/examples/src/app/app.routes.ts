@@ -9,7 +9,6 @@ import { RoutingHome } from './7-routing/routing-home/routing-home';
 import { Secret } from './7-routing/secret/secret';
 
 export const routes: Routes = [
-
   // The angular-generated welcome page, shown at the root path.
   { path: '', component: App },
 
@@ -48,30 +47,11 @@ export const routes: Routes = [
     children: [
       { path: '', component: RoutingHome },
       { path: 'products', component: Products },
-      // url identifiers must be declared, query params are not declared
       { path: 'product/:id', component: ProductDetail },
       // The Secret route is protected by a CanActivate guard: when not logged
       // in, authGuard redirects to /routing instead of showing this page.
       { path: 'secret', component: Secret, canActivate: [authGuard] },
     ],
-    /*
-      Query params go in their own section. From the docs:
-        // Single parameter structure
-        // /products?category=electronics
-        router.navigate(['/products'], {
-          queryParams: {category: 'electronics'},
-        });
-
-        // Multiple parameters
-        // /products?category=electronics&sort=price&page=1
-        router.navigate(['/products'], {
-          queryParams: {
-            category: 'electronics',
-            sort: 'price',
-            page: 1,
-          },
-        });
-    */
   },
 
   {
@@ -86,6 +66,13 @@ export const routes: Routes = [
       import('./9-async-http/async-http/async-http').then((m) => m.AsyncHTTP),
   },
 
-  // this is a fallback view if a user tries to go to a route that does not exist
+  {
+    path: 'http-client',
+    loadComponent: () =>
+      import('./10-http-client/http-client-demo').then((m) => m.HttpClientDemo),
+  },
+
+  // The wildcard route must come LAST: it catches any URL that matched nothing
+  // else, so specific routes are always tried first.
   { path: '**', component: NotFound },
 ];

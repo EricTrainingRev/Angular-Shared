@@ -1,0 +1,282 @@
+<div class="http-client-demo">
+  <h1>HTTP Client</h1>
+
+  <!--
+    This page demonstrates the core capabilities of Angular's HttpClient.
+    Each section is self-contained and shows one idea by doing it:
+      1. The four HTTP verbs (GET, POST, PUT, DELETE)
+      2. Typed generics + a JSON request body
+      3. Request customization (HttpParams and HttpHeaders)
+      4. observe: 'response' — the full response vs. just the body
+      5. Typed error handling (HTTP status vs. network failures)
+  -->
+
+  <!-- ===================== Section 1: HTTP Verbs ===================== -->
+  <section>
+    <h2>HTTP Verbs</h2>
+
+    <!--
+      HttpClient exposes one method per HTTP verb: get() to read, post() to
+      create, put() to update, and delete() to remove. Each returns a typed
+      Observable, so they can be consumed exactly like any RxJS stream. Each
+      button below fires one verb's request and drives its own state signal,
+      so the loading / error / data cards stay independent.
+    -->
+
+    <div class="row">
+      <button type="button" (click)="loadPosts()">GET /posts</button>
+      <button type="button" (click)="createPost()">POST /posts</button>
+      <button type="button" (click)="updatePost()">PUT /posts/:id</button>
+      <button type="button" (click)="deletePost()">DELETE /posts/:id</button>
+    </div>
+
+    <h3>GET — read</h3>
+    @switch (getStatus()) {
+      @case ('idle') {
+        <p class="status">Click "GET /posts" to fetch the full list.</p>
+      }
+      @case ('loading') {
+        <p class="status">Loading…</p>
+      }
+      @case ('error') {
+        <p class="status error">{{ getError() }}</p>
+      }
+      @case ('success') {
+              <ul class="post-list">
+                @for (post of posts(); track post.id) {
+                  <li><strong>{{ post.id }}.</strong> {{ post.title }}</li>
+                }
+              </ul>
+            }
+          }
+
+          <h3>GET — via AsyncPipe</h3>
+          <!--
+            The same GET, but rendered with the AsyncPipe instead of a manual
+            subscribe. The Observable is stored in a signal and the template
+            subscribes with `| async`, so Angular owns the subscription lifecycle
+            (auto-unsubscribe on destroy). It fires at the same time as the manual
+            GET above, so the two consumption patterns can be compared side by side.
+          -->
+          @if (asyncPosts(); as posts$) {
+            <ul class="post-list">
+              @for (post of posts$ | async; track post.id) {
+                <li><strong>{{ post.id }}.</strong> {{ post.title }}</li>
+              } @empty {
+                <li>Loading posts…</li>
+              }
+            </ul>
+          } @else {
+            <p class="status">Click "GET /posts" to fetch via AsyncPipe too.</p>
+          }
+
+          <h3>POST — create</h3>
+    @switch (postStatus()) {
+      @case ('idle') {
+        <p class="status">Click "POST /posts" to create a post from the draft below.</p>
+      }
+      @case ('loading') {
+        <p class="status">Creating…</p>
+      }
+      @case ('error') {
+        <p class="status error">{{ postError() }}</p>
+      }
+      @case ('success') {
+        @if (createdPost(); as post) {
+          <p class="status">Created <strong>#{{ post.id }}</strong> — {{ post.title }}</p>
+        }
+      }
+    }
+
+    <h3>PUT — update</h3>
+    @switch (putStatus()) {
+      @case ('idle') {
+        <p class="status">Click "PUT /posts/:id" to replace the post with the current draft.</p>
+      }
+      @case ('loading') {
+        <p class="status">Updating…</p>
+      }
+      @case ('error') {
+        <p class="status error">{{ putError() }}</p>
+      }
+      @case ('success') {
+        @if (updatedPost(); as post) {
+          <p class="status">Updated <strong>#{{ post.id }}</strong> — title is now "{{ post.title }}"</p>
+        }
+      }
+    }
+
+    <h3>DELETE — remove</h3>
+    @switch (deleteStatus()) {
+      @case ('idle') {
+        <p class="status">Click "DELETE /posts/:id" to remove the post.</p>
+      }
+      @case ('loading') {
+        <p class="status">Deleting…</p>
+      }
+      @case ('error') {
+        <p class="status error">{{ deleteError() }}</p>
+      }
+      @case ('success') {
+        <p class="status">Deleted <strong>#{{ deletedId() }}</strong></p>
+      }
+    }
+  </section>
+
+  <!-- ===================== Section 2: Typed Generics & JSON Body ===================== -->
+  <section>
+    <h2>Typed Generics &amp; JSON Body</h2>
+
+    <!--
+      HttpClient is generic: http.get<Post[]> tells it to parse the response
+      JSON into that shape (TypeScript does NOT verify this against the server,
+      it just declares the expected type). For POST and PUT, the second argument
+      is the object serialized as the JSON request body. Here the draft is typed
+      as PostDraft, so both title and body are required and correctly-typed.
+    -->
+
+    <div class="row">
+      <input
+        [value]="draftTitle()"
+        (input)="updateDraftTitle($any($event.target).value)"
+        placeholder="Title"
+        aria-label="Post title"
+      />
+      <input
+        [value]="draftBody()"
+        (input)="updateDraftBody($any($event.target).value)"
+        placeholder="Body"
+        aria-label="Post body"
+      />
+    </div>
+
+    <p class="status">Draft sent as body: <code>{{ buildDraft() | json }}</code></p>
+  </section>
+
+  <!-- ===================== Section 3: Request Customization ===================== -->
+  <section>
+    <h2>Request Customization</h2>
+
+    <!--
+      HttpParams builds the query string (e.g. ?userId=1) and HttpHeaders adds
+      custom headers to a request. Both are immutable: .set() returns a new
+      object rather than mutating the old one. The first demo filters posts by
+      user id; the second sends a custom header with the request.
+    -->
+
+    <h3>HttpParams — query string</h3>
+    <div class="row">
+      <input
+        [value]="userId()"
+        (input)="updateUserId($any($event.target).value)"
+        type="number"
+        min="1"
+        placeholder="User id"
+        aria-label="User id to filter posts by"
+      />
+      <button type="button" (click)="loadPostsByUser()">GET /posts?userId=N</button>
+    </div>
+    @switch (filterStatus()) {
+      @case ('idle') {
+        <p class="status">Enter a user id and click to fetch only that user's posts.</p>
+      }
+      @case ('loading') {
+        <p class="status">Loading…</p>
+      }
+      @case ('error') {
+        <p class="status error">{{ filterError() }}</p>
+      }
+      @case ('success') {
+        <p class="status">{{ filteredPosts().length }} posts for user {{ userId() }}</p>
+        <ul class="post-list">
+          @for (post of filteredPosts(); track post.id) {
+            <li><strong>{{ post.id }}.</strong> {{ post.title }}</li>
+          }
+        </ul>
+      }
+    }
+
+    <h3>HttpHeaders — custom header</h3>
+    <button type="button" (click)="loadPostsWithHeader()">GET /posts with header</button>
+    @switch (headerStatus()) {
+      @case ('idle') {
+        <p class="status">Click to send the request with an <code>X-Demo-Header</code>.</p>
+      }
+      @case ('loading') {
+        <p class="status">Loading…</p>
+      }
+      @case ('error') {
+        <p class="status error">{{ headerError() }}</p>
+      }
+      @case ('success') {
+        <p class="status">Received {{ headerPosts().length }} posts with the custom header.</p>
+      }
+    }
+  </section>
+
+  <!-- ===================== Section 4: observe: 'response' ===================== -->
+  <section>
+    <h2>Full Response</h2>
+
+    <!--
+      By default HttpClient emits just the parsed body. With observe: 'response'
+      it emits the full HttpResponse, so the status code and headers are
+      available alongside the body — useful when you need to read a header or
+      check the status rather than only the data.
+    -->
+
+    <button type="button" (click)="loadPostsResponse()">GET /posts (full response)</button>
+    @switch (responseStatus()) {
+      @case ('idle') {
+        <p class="status">Click to fetch the full response instead of just the body.</p>
+      }
+      @case ('loading') {
+        <p class="status">Loading…</p>
+      }
+      @case ('error') {
+        <p class="status error">{{ responseError() }}</p>
+      }
+      @case ('success') {
+        @if (response(); as res) {
+          <p class="status">
+            Status <strong>{{ res.status }}</strong> — Content-Type:
+            <code>{{ res.headers.get('content-type') }}</code> — {{ res.body?.length }} posts
+          </p>
+        }
+      }
+    }
+  </section>
+
+  <!-- ===================== Section 5: Error Handling ===================== -->
+  <section>
+    <h2>Error Handling</h2>
+
+    <!--
+      HttpClient surfaces every failure as an HttpErrorResponse. Its .status is
+      the HTTP status code for server errors (e.g. 404), or 0 for network-level
+      failures that never reached a server. The two buttons below trigger each
+      kind so you can see the distinct message.
+    -->
+
+    <div class="row">
+      <button type="button" (click)="loadMissingPost()">GET /posts/99999910 (404)</button>
+      <button type="button" (click)="loadUnreachableHost()">GET unreachable host</button>
+    </div>
+    @switch (httpErrorStatus()) {
+      @case ('idle') {
+        <p class="status">Click a button to trigger an HTTP status error or a network error.</p>
+      }
+      @case ('loading') {
+        <p class="status">Loading…</p>
+      }
+      @case ('error') {
+        <p class="status error">
+          <strong>{{ httpErrorKind() }}:</strong> {{ httpErrorMessage() }}
+        </p>
+      }
+      @case ('success') {
+        <p class="status">Unexpectedly succeeded — this request was meant to fail.</p>
+      }
+    }
+  </section>
+</div>
